@@ -8,11 +8,11 @@ TARGET=$PROD_TARGET
 pushcode () { 
    cd scripts
    echo "ENDPOINT: $1/scripts"
-   aws s3 sync $1/scripts
+   aws s3 sync . $1/scripts
    cd ..
    cd template
    echo "ENDPOINT: $1/scripts"
-   aws s3 sync $1/template
+   aws s3 sync . $1/template
    cd ..
 }
 

@@ -34,7 +34,20 @@ fi
 if [[ -z $(git status -s) ]]; then 
 	echo "No uncommited changes found"; 
 	echo "Push to $TARGET"
-	pushcode $TARGET
+	if [ $TARGET = $PROD_TARGET ]; then
+                        read -p "Are you sure you want to update PROD=[$TARGET] [yes=y/no=n] " yn
+                                case $yn in
+                                        [Yy]* ) echo "Push to $TARGET" && pushcode $TARGET
+                                        ;;
+                                        [Nn]* ) echo "Exiting ...." && exit
+                                        ;;
+                                        * ) echo "Please answer y or n "
+                                        ;;
+                                esac
+        elif [ $TARGET = $DEV_TARGET ]; then
+                        echo "Push to $TARGET"; pushcode $TARGET
+       	fi
+
 else 
 	echo "Commit your Changes first!"
 	git add --all .

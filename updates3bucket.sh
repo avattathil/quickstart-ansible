@@ -7,12 +7,12 @@ TARGET=$PROD_TARGET
 
 pushcode () { 
    cd scripts
-   echo "ENDPOINT: $1/scripts"
+   echo "ENDPOINT: $1/"
    aws s3 sync scripts $1/ --exclude="*.git/*"
    cd ..
-   cd template
-   echo "ENDPOINT: $1/template"
-   aws s3 sync template $1/ --exclude="*.git/*"
+   cd templates
+   echo "ENDPOINT: $1/"
+   aws s3 sync templates $1/ --exclude="*.git/*"
    cd ..
 }
 

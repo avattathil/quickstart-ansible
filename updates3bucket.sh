@@ -1,8 +1,9 @@
 #!/bin/bash
 #This script push changes to production BE CAREFULL!!
 #By This script overwrites the file in your prod or developement
-PROD_TARGET="s3://quickstart-reference/ansible/latest"
-DEV_TARGET="s3://quickstart-dev/ansible/latest"
+APPNAME=ansible
+PROD_TARGET="s3://quickstart-reference/$APPNAME/latest"
+DEV_TARGET="s3://quickstart-dev/$APPNAME/latest"
 TARGET=$PROD_TARGET
 
 pushcode () { 

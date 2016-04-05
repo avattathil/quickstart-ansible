@@ -42,12 +42,21 @@ else
 	git push
 	
 	if [ $? -eq 0 ];then
-		echo "Push to $TARGET"
-		pushcode $TARGET
+		if [ $TARGET = $PROD_TARGET ]; then
+			read -p "Are you sure you want to update PROD [$TARGET]" yn
+    				case $yn in
+        				[Yy]* ) echo "Push to $TARGET" && pushcode $TARGET
+					;;
+        				[Nn]* ) exit
+					;;
+        				* ) echo "Please answer y or n "
+					;;
+    				esac
+		elif [ $TARGET = $DEV_TARGET ]; then
+			echo "Push to $TARGET"; pushcode $TARGET
+		fi
 	else
 		echo "Git push did was not clean (Please investigate)"
 	fi
 		
 fi 
-
-

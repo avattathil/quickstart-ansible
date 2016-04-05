@@ -43,7 +43,7 @@ else
 	
 	if [ $? -eq 0 ];then
 		if [ $TARGET = $PROD_TARGET ]; then
-			read -p "Are you sure you want to update PROD=[$TARGET] [y/n] " yn
+			read -p "Are you sure you want to update PROD=[$TARGET] [yes/no] " yn
     				case $yn in
         				[Yy]* ) echo "Push to $TARGET" && pushcode $TARGET
 					;;

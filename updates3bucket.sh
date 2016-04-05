@@ -7,9 +7,13 @@ TARGET=$PROD_TARGET
 
 pushcode () { 
    cd scripts
+   echo "ENDPOINT: $1/scripts"
    aws s3 sync $1/scripts
+   cd ..
    cd template
+   echo "ENDPOINT: $1/scripts"
    aws s3 sync $1/template
+   cd ..
 }
 
 # check for cli
@@ -39,6 +43,7 @@ else
 	echo "Commit your Changes first!"
 	git add --all .
 	git commit -a
+	git push
 	
 	if [ $? -eq 0 ];then
 		echo "Push to $TARGET"

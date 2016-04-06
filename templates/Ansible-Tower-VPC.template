@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "Step 2 of 3: Create the VPC infrastructure for the Ansible Server Quick Start.",
+    "Description": "Create the Amazon VPC for the Ansible Quick Start.",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",

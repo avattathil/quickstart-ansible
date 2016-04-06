@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "QSAnsible",
+        "Description": "Create Ansible Tower Quick Start.",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",

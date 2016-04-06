@@ -34,16 +34,7 @@ sed -i -e "s/10000000000/100000000/" roles/preflight/defaults/main.yml
 # Allow sudo with out tty
 sed -i -e "s/Defaults    requiretty/Defaults    \!requiretty/" /etc/sudoers
 
-chmod 400 /etc/qsrdsinfo.conf
-chmod 400 /etc/qsadmin.conf
 RDSINFO="/etc/qsrdsinfo.conf"
-ADMINFO="/etc/qsadmin.conf"
-
-if [ -f $ADMININFO ] ; then
-ANSIBLE_ADMIN=`cat $RDSINFO| grep ansible_admin | awk -F"|" '{print $2}'`
-ANSIBLE_ADMIN_PASSWD=`cat $RDSINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
-fi
-
 
 if [ -f $RDSINFO ] ; then
 echo "Using AWS RDS"
@@ -54,11 +45,11 @@ RDS_EP=`cat $RDSINFO| grep rds_endpoint | awk -F"|" '{print $2}'`
 	
 #Create tower_setup yml
 cat <<EOF >> tower_setup_conf.yml
-admin_password: ${ANSIBLE_ADMIN_PASSWD}
+admin_password: adminadmin
 configure_private_vars: {}
 database: external
 mongo: false
-munin_password: ${ANSIBLE_ADMIN_PASSWD}
+munin_password: adminadmin
 pg_database: ${RDS_DBNAME}
 pg_host: ${RDS_EP}
 pg_password: ${RDS_PASS}
@@ -95,6 +86,3 @@ EOF
 
 ./setup.sh
 
-# Remove Userdata Info
-#rm /etc/qsrdsinfo.conf
-#rm /etc/qsansible.conf

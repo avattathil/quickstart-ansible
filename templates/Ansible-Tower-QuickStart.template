@@ -1,11 +1,22 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "QSAnsible"
+    "Description"              : "QSAnsible",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",
             "Type"        : "AWS::EC2::KeyPair::KeyName"
         },
+
+	"AnsibleTowerIP": {
+	    "Description": "IP for the ansible master",
+	    "Type": "String",
+	    "Default": "10.0.0.10"
+	},
+	"AnsibleClientLinuxIP": {
+	    "Description": "IP for the ansible client",
+	    "Type": "String",
+	    "Default": "10.0.0.11"
+	},
         "SubnetCIDR"  : {
             "Description" : "CIDR Block for the Public Subnet",
             "Type"        : "String",
@@ -46,7 +57,7 @@
         "Ec2Stack" : {
             "Type" : "AWS::CloudFormation::Stack",
             "Properties" : {
-                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-Ec2.template
+                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-Ec2.template",
                 "Parameters"  : {
                     "KeyPairName" : {
                         "Ref" : "KeyPairName"
@@ -63,20 +74,14 @@
                             "Outputs.VPC"
                         ]
                     },
-                    "IncludeDemoInstances" : {
-                        "Ref" : "IncludeDemoInstances"
-                    },
                     "RemoteAdminCIDR" : {
                         "Ref" : "RemoteAdminCIDR"
                     },
-                    "AdminPassword" : {
-                        "Ref" : "AdminPassword"
+                    "AnsibleTowerIP" : {
+                        "Ref" : "AnsibleTowerIP"
                     },
-                    "AdminEmailAddress" : {
-                        "Ref" : "AdminEmailAddress"
-                    },
-                    "ChefNodes" : {
-                        "Ref" : "ChefNodes"
+                    "AnsibleClientLinuxIP" : {
+                        "Ref" : "AnsibleClientLinuxIP"
                     },
                     "VPCCIDR" : {
                         "Ref" : "VPCCIDR"

@@ -189,7 +189,7 @@
 								" --region ", { "Ref": "AWS::Region" }, 
 								"\n",
 								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforCfnTools" },"'","\n",
-								"SRC=https://s3.amazonaws.com/dev-quickstart/QS_Ansible/cf_scripts/ansibletower_userdata.sh",
+								"SRC=https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansibletower_userdata.sh",
 								"\n",
 								"curl -L $SRC | bash;",
 								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforAnsibleTowerInstall" },"'","\n",

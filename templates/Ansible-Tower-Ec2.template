@@ -184,7 +184,7 @@
 				"Handle": {
 					"Ref": "WaitforCfnTools"
 				},
-				"Timeout": "600"
+				"Timeout": "1000"
 
 			}
 		},
@@ -198,7 +198,7 @@
 				"Handle": {
 					"Ref": "WaitforAnsibleTowerInstall"
 				},
-				"Timeout": "600"
+				"Timeout": "1000"
 			}
 		},
 		"LinuxClient": {

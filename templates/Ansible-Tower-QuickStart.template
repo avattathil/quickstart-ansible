@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-    "Description"              : "(0015) - Step 1 of 3: This template deploys the AWS Ansible Tower Quick Start. "
+	"Description": "Create the Amazon EC2 instances for the Ansible Quick Start.",
 	"Parameters": {
 		"KeyPairName": {
 			"Description": "Public/private key pair",
@@ -70,7 +70,7 @@
         "VPCStack" : {
             "Type" : "AWS::CloudFormation::Stack",
             "Properties" : {
-                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-VPC.template",
+                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/chef/chef-server/latest/templates/Chef-Server-VPC.template",
                 "Parameters"  : {
                     "KeyPairName" : {
                         "Ref" : "KeyPairName"
@@ -84,14 +84,10 @@
                 }
             }
         },
-        "InstanceStack" : {
-            "Type" : "AWS::CloudFormation::Stack",
+        "DBInstance" : {
+	  "Type": "AWS::RDS::DBInstance",
             "Properties" : {
-                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-Server.template",
                 "Parameters"  : {
-                    "KeyPairName" : {
-                        "Ref" : "KeyPairName"
-                    },
                     "SubnetId"    : {
                         "Fn::GetAtt" : [
                             "VPCStack",
@@ -104,23 +100,60 @@
                             "Outputs.VPC"
                         ]
                     },
-                    "IncludeDemoInstances" : {
-                        "Ref" : "IncludeDemoInstances"
-                    },
-                    "RemoteAdminCIDR" : {
-                        "Ref" : "RemoteAdminCIDR"
-                    },
-                    "AdminPassword" : {
-                        "Ref" : "AdminPassword"
-                    },
-                    "AdminEmailAddress" : {
-                        "Ref" : "AdminEmailAddress"
-                    },
-                    "AnsibleNodes" : {
-                        "Ref" : "AnsibleNodes"
-                    },
-                    "VPCCIDR" : {
-                        "Ref" : "VPCCIDR"
+                "DBName": {
+                        "Ref" : "DBName"
+                },
+                "DBPassword": {
+                        "Ref" : "DBPassword"
+                },
+                "DBUser": {
+                        "Ref" : "DBUser"
+                },
+                "DBClass": {
+                        "Ref" : "DBClass"
+                },
+                "MultiAZDatabase": {
+                        "Ref" : "MultiAZDatabase"
+                },
+                "DBAllocatedStorage": {
+                        "Ref" : "DBAllocatedStorage"
+                },
+                "SubnetCIDR"  : {
+                        "Ref" : "SubnetCIDR"
+                },
+  "Resources" : {
+    "DBSubnetGroup" : {
+      "Type" : "AWS::RDS::DBSubnetGroup",
+      "Properties" : {
+        "DBSubnetGroupDescription" : "Subnets available for the RDS DB Instance",
+        "SubnetIds" : { "Ref" : "SubnetId" }
+      }
+    },
+    "VPCSecurityGroup" : {
+        "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" :
+        {
+           "GroupDescription" : "Security group for RDS DB Instance.",
+           "VpcId" : { "Ref" : "VPC" }
+        }
+    },
+
+    "DB" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "Properties" : {
+      "DBName"            : { "Ref" : "DBName" },
+      "Engine"            : "postgres",
+      "MultiAZ"           : { "Ref": "MultiAZDatabase" },
+      "MasterUsername"    : { "Ref" : "DBUser" },
+      "DBInstanceClass"   : { "Ref" : "DBClass" },
+      "AllocatedStorage"  : { "Ref" : "DBAllocatedStorage" },
+      "MasterUserPassword": { "Ref" : "DBPassword" },
+      "DBSubnetGroupName" : { "Ref" : "DBSubnetGroup" },
+      "VPCSecurityGroups" : [ { "Ref" : "VPCSecurityGroup" }  ]
+      }
+    }
+  }
+		
                     }
                 }
             }

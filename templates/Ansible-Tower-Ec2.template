@@ -65,22 +65,22 @@
 				"64": "ami-af4333cf"
 			},
 			"eu-west-1": {
-				"64": "#ami-e1398992"
+				"64": "ami-7abd0209"
 			},
 			"eu-central-1": {
-				"64": "#ami-d22932be"
+				"64": "ami-9bf712f4"
 			},
 			"ap-southeast-1": {
-				"64": "#ami-0103cd62"
+				"64": "ami-f068a193"
 			},
 			"ap-northeast-1": {
-				"64": "#ami-59bdb937"
+				"64": "ami-eec1c380"
 			},
 			"sa-east-1": {
-				"64": "#ami-f0f4779c"
+				"64": "ami-26b93b4a"
 			},
 			"ap-southeast-2": {
-				"64": "#ap-11032472"
+				"64": "ami-fedafc9d"
 			}
 		}
 	},

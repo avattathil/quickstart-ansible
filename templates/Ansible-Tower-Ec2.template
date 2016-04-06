@@ -100,7 +100,7 @@
                                                                 "content": {
                                                                         "Fn::Join": ["", [
                                                                                 "ansible_admin_password|",{ "Ref" : "AnsibleAdminPassword" }, "\n",
-                                                                                "ansible_dbadmin_password|",{ "Ref" : "DatabaseAdminPassword" }, "\n",
+                                                                                "ansible_dbadmin_password|",{ "Ref" : "DatabaseAdminPassword" }, "\n"
                                                                         ]]
                                                                 },
                                                                 "mode": "000400",

@@ -93,6 +93,12 @@
                     "RemoteAdminCIDR" : {
                         "Ref" : "RemoteAdminCIDR"
                     },
+                    "AnsibleAdminPassword" : {
+                        "Ref" : "AnsibleAdminPassword"
+                    },
+                    "DatabaseAdminPassword" : {
+                        "Ref" : "DatabaseAdminPassword"
+                    },
                     "AnsibleTowerIP" : {
                         "Ref" : "AnsibleTowerIP"
                     },

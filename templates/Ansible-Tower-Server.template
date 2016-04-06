@@ -1,0 +1,336 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Create the Amazon EC2 instances for the Ansible Quick Start.",
+	"Parameters": {
+		"KeyPairName": {
+			"Description": "Public/private key pair",
+			"Type": "AWS::EC2::KeyPair::KeyName"
+		},
+		"SubnetId": {
+			"Description": "VPC Subnet ID for EC2 Instances",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"VPC": {
+			"Description": "VPC Id",
+			"Type": "AWS::EC2::VPC::Id"
+		},
+		"RemoteAdminCIDR": {
+			"Description": "CIDR Block or IP for SSH and RDP access",
+			"Type": "String",
+			"Default": "0.0.0.0/0",
+			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
+		},
+		"AnsibleTowerIP": {
+			"Description": "IP for the ansible master",
+			"Type": "String",
+			"Default": "172.30.0.10"
+		},
+		"AnsibleClientLinuxIP": {
+			"Description": "IP for the ansible client",
+			"Type": "String",
+			"Default": "172.30.0.11"
+		},
+		"VPCCIDR": {
+			"Description": "CIDR Block for the VPC",
+			"Type": "String",
+			"Default": "172.30.0.0/16",
+			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
+		}
+	},
+	"Mappings": {
+		"CentOS7": {
+			"us-east-1": {
+				"64": "ami-6d1c2007"
+			},
+			"us-west-2": {
+				"64": "ami-d2c924b2"
+			},
+			"us-west-1": {
+				"64": "ami-af4333cf"
+			},
+			"eu-west-1": {
+				"64": "#ami-e1398992"
+			},
+			"eu-central-1": {
+				"64": "#ami-d22932be"
+			},
+			"ap-southeast-1": {
+				"64": "#ami-0103cd62"
+			},
+			"ap-northeast-1": {
+				"64": "#ami-59bdb937"
+			},
+			"sa-east-1": {
+				"64": "#ami-f0f4779c"
+			},
+			"ap-southeast-2": {
+				"64": "#ap-11032472"
+			}
+		}
+	},
+	"Resources": {
+		"AnsibleTower": {
+			"Type": "AWS::EC2::Instance",
+			"Metadata": {
+				"AWS::CloudFormation::Init": {
+					"config": {
+						"packages": {
+							"yum": {
+								"curl": [],
+								"wget": []
+							}
+						},
+						"files": {
+							"/etc/cfn/cfn-hup.conf": {
+								"content": {
+									"Fn::Join": ["", [
+										"[main]\n",
+										"stack=", {
+											"Ref": "AWS::StackId"
+										}, "\n",
+										"region=", {
+											"Ref": "AWS::Region"
+										}, "\n"
+									]]
+								},
+								"mode": "000400",
+								"user": "root",
+								"group": "root"
+							}
+						}
+					}
+				}
+			},
+			"Properties": {
+				"ImageId": {
+					"Fn::FindInMap": [
+						"CentOS7", {
+							"Ref": "AWS::Region"
+						},
+						"64"
+					]
+				},
+				"InstanceType": "t2.medium",
+				"NetworkInterfaces": [{
+					"DeleteOnTermination": "true",
+					"DeviceIndex": 0,
+					"SubnetId": {
+						"Ref": "SubnetId"
+					},
+					"PrivateIpAddresses": [{
+						"Primary": "true",
+						"PrivateIpAddress": {
+							"Ref": "AnsibleTowerIP"
+						}
+					}],
+					"GroupSet": [{
+						"Ref": "AnsibleTowerSecurityGroup"
+					}]
+				}],
+				"Tags": [{
+					"Key": "Name",
+					"Value": "Ansible"
+				}],
+				"BlockDeviceMappings": [{
+					"DeviceName": "/dev/xvdb",
+					"Ebs": {
+						"VolumeSize": "50",
+						"VolumeType": "gp2"
+					}
+				}],
+				"KeyName": {
+					"Ref": "KeyPairName"
+				},
+
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"", [
+								"#!/bin/bash\n",
+								"yum install -y epel-release\n",
+								"yum install -y python-daemon\n",
+								"yum install -y pystache.noarch\n",
+								"yum install -y python-ecdsa\n",
+								"yum install -y python-paramiko\n",
+								"yum install -y python-keyczar\n",
+								"yum install -y python-crypto\n",
+								"yum install -y python-httplib\n",
+								"yum install  -y https://s3.amazonaws.com/quickstart-cfn-tools/aws-cfn-bootstrap-1.4-8.3.el7.centos.noarch.rpm\n",
+								"/opt/aws/bin/cfn-init ",
+								" --stack ", { "Ref": "AWS::StackName" },
+								" --resource AnsibleTower ",
+								" --region ", { "Ref": "AWS::Region" }, 
+								"\n",
+								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforCfnTools" },"'","\n",
+								"SRC=https://s3.amazonaws.com/dev-quickstart/QS_Ansible/cf_scripts/ansibletower_userdata.sh",
+								"\n",
+								"curl -L $SRC | bash;",
+								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforAnsibleTowerInstall" },"'","\n",
+								"\n",
+								"\n"
+							]
+						]
+					}
+				}
+			}
+		},
+		"WaitforCfnTools": {
+			"Type": "AWS::CloudFormation::WaitConditionHandle"
+		},
+		"CfnWaitCondition": {
+			"Type": "AWS::CloudFormation::WaitCondition",
+			"DependsOn": "AnsibleTower",
+			"Properties": {
+				"Handle": {
+					"Ref": "WaitforCfnTools"
+				},
+				"Timeout": "600"
+
+			}
+		},
+		"WaitforAnsibleTowerInstall": {
+			"Type": "AWS::CloudFormation::WaitConditionHandle"
+		},
+		"AnsibleTowerWaitCondition": {
+			"Type": "AWS::CloudFormation::WaitCondition",
+			"DependsOn": "AnsibleTower",
+			"Properties": {
+				"Handle": {
+					"Ref": "WaitforAnsibleTowerInstall"
+				},
+				"Timeout": "600"
+			}
+		},
+		"LinuxClient": {
+			"Type": "AWS::EC2::Instance",
+			"DependsOn": "AnsibleTower",
+			"Properties": {
+				"ImageId": {
+					"Fn::FindInMap": [
+						"CentOS7", {
+							"Ref": "AWS::Region"
+						},
+						"64"
+					]
+				},
+				"InstanceType": "t2.medium",
+				"NetworkInterfaces": [{
+					"DeleteOnTermination": "true",
+					"DeviceIndex": 0,
+					"SubnetId": {
+						"Ref": "SubnetId"
+					},
+					"PrivateIpAddresses": [{
+						"Primary": "true",
+						"PrivateIpAddress": {
+							"Ref": "AnsibleClientLinuxIP"
+						}
+					}],
+					"GroupSet": [{
+						"Ref": "AnsibleClientLinuxSecurityGroup"
+					}]
+				}],
+				"Tags": [{
+					"Key": "Name",
+					"Value": "LinuxClient"
+				}],
+				"KeyName": {
+					"Ref": "KeyPairName"
+				},
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"", [
+								"#!/bin/bash\n",
+								"hostname linuxclient.example.com",
+								"\n"
+							]
+						]
+					}
+				}
+			}
+		},
+		"AnsibleTowerSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"GroupDescription": "Enables access to the Ansible tower",
+				"VpcId": {
+					"Ref": "VPC"
+				},
+				"SecurityGroupIngress": [{
+					"IpProtocol": "tcp",
+					"FromPort": "22",
+					"ToPort": "22",
+					"CidrIp": {
+						"Ref": "RemoteAdminCIDR"
+					}
+				}, {
+					"IpProtocol": "tcp",
+					"FromPort": "22",
+					"ToPort": "22",
+					"CidrIp": {
+						"Ref": "VPCCIDR"
+					}
+				}, {
+					"IpProtocol": "tcp",
+					"FromPort": "443",
+					"ToPort": "443",
+					"CidrIp": {
+						"Ref": "RemoteAdminCIDR"
+					}
+				}, {
+					"IpProtocol": "tcp",
+					"FromPort": "80",
+					"ToPort": "80",
+					"CidrIp": {
+						"Ref": "RemoteAdminCIDR"
+					}
+				}]
+			}
+		},
+		"AnsibleClientLinuxSecurityGroup": {
+			"Type": "AWS::EC2::SecurityGroup",
+			"Properties": {
+				"GroupDescription": "Enables access to the ansible communication",
+				"VpcId": {
+					"Ref": "VPC"
+				},
+				"SecurityGroupIngress": [{
+					"IpProtocol": "tcp",
+					"FromPort": "22",
+					"ToPort": "22",
+					"CidrIp": {
+						"Ref": "RemoteAdminCIDR"
+					}
+				}, {
+					"IpProtocol": "tcp",
+					"FromPort": "22",
+					"ToPort": "22",
+					"CidrIp": {
+						"Ref": "VPCCIDR"
+					}
+				}]
+			}
+		}
+	},
+	"Outputs": {
+		"AnsibleTowerDnsName": {
+			"Value": {
+				"Fn::GetAtt": [
+					"AnsibleTower",
+					"PublicDnsName"
+				]
+			},
+			"Description": "Public DNS Name for the Ansible Server"
+		},
+		"AnsibleClientLinuxDnsName": {
+			"Value": {
+				"Fn::GetAtt": [
+					"LinuxClient",
+					"PublicDnsName"
+				]
+			},
+			"Description": "Public DNS Name for the Ansible Linux"
+		}
+	}
+}

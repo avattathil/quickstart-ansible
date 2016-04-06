@@ -1,0 +1,129 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+    "Description"              : "(0015) - Step 1 of 3: This template deploys the AWS Ansible Tower Quick Start. "
+	"Parameters": {
+		"KeyPairName": {
+			"Description": "Public/private key pair",
+			"Type": "AWS::EC2::KeyPair::KeyName"
+		},
+		"DBName": {
+	       		     "Description": "Database Name",
+	       		     "Type": "String",
+	       		     "Default": "DBAnsibleTower"
+	        },    
+	        "DBPassword": {
+	       		     "Description": "Database Password",
+	       		     "Type": "String",
+	       		     "Default": "DBPassword"
+	        },
+	        "DBUser": {
+	       		     "Description": "Database User",
+	       		     "Type": "String",
+	       		     "Default": "DBUser"
+	        },
+	        "DBClass": {
+	       		     "Description": "DBClass",
+	       		     "Type": "String",
+	       		     "Default": "db.t2.micro"
+	        },
+	        "MultiAZDatabase": {
+	       		   "Description": "MultiAZDatabase",
+	       		   "Type": "String",
+	       		   "Default": "false"
+	        },
+	        "DBAllocatedStorage": {
+	         	 "Description": "DBAllocatedStorage",
+	         	 "Type": "Number",
+	        	 "Default": "10"
+	        },
+                "SubnetCIDR"  : {
+            		 "Description" : "CIDR block for the public subnet",
+            		 "Type"        : "String",
+           		 "Default"     : "10.0.0.0/19",
+            	         "AllowedPattern" : "[a-zA-Z0-9]+\\..+"
+        	},
+		"RemoteAdminCIDR": {
+			"Description": "CIDR Block or IP for SSH",
+			"Type": "String",
+			"Default": "0.0.0.0/0",
+			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
+		},
+		"AnsibleTowerIP": {
+			"Description": "IP for the ansible master",
+			"Type": "String",
+         	        "Default" : "10.0.0.10"
+
+		},
+		"AnsibleClientLinuxIP": {
+			"Description": "IP for the ansible client",
+			"Type": "String",
+         	        "Default" : "10.0.0.11"
+		},
+		"VPCCIDR": {
+			"Description": "CIDR Block for the VPC",
+			"Type": "String",
+			"Default": "10.0.0.0/16",
+			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
+		}
+	},
+    "Resources"                : {
+        "VPCStack" : {
+            "Type" : "AWS::CloudFormation::Stack",
+            "Properties" : {
+                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-VPC.template",
+                "Parameters"  : {
+                    "KeyPairName" : {
+                        "Ref" : "KeyPairName"
+                    },
+                    "SubnetCIDR"  : {
+                        "Ref" : "SubnetCIDR"
+                    },
+                    "VPCCIDR"         : {
+                        "Ref" : "VPCCIDR"
+                    }
+                }
+            }
+        },
+        "InstanceStack" : {
+            "Type" : "AWS::CloudFormation::Stack",
+            "Properties" : {
+                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-Server.template",
+                "Parameters"  : {
+                    "KeyPairName" : {
+                        "Ref" : "KeyPairName"
+                    },
+                    "SubnetId"    : {
+                        "Fn::GetAtt" : [
+                            "VPCStack",
+                            "Outputs.SubnetId"
+                        ]
+                    },
+                    "VPC"    : {
+                        "Fn::GetAtt" : [
+                            "VPCStack",
+                            "Outputs.VPC"
+                        ]
+                    },
+                    "IncludeDemoInstances" : {
+                        "Ref" : "IncludeDemoInstances"
+                    },
+                    "RemoteAdminCIDR" : {
+                        "Ref" : "RemoteAdminCIDR"
+                    },
+                    "AdminPassword" : {
+                        "Ref" : "AdminPassword"
+                    },
+                    "AdminEmailAddress" : {
+                        "Ref" : "AdminEmailAddress"
+                    },
+                    "AnsibleNodes" : {
+                        "Ref" : "AnsibleNodes"
+                    },
+                    "VPCCIDR" : {
+                        "Ref" : "VPCCIDR"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -36,14 +36,6 @@
 	         	 "Type": "Number",
 	        	  "Default": "10"
 	        },
-		"SubnetId": {
-			"Description": "VPC Subnet ID for EC2 Instances",
-			"Type": "AWS::EC2::Subnet::Id"
-		},
-		"VPC": {
-			"Description": "VPC Id",
-			"Type": "AWS::EC2::VPC::Id"
-		},
 		"RemoteAdminCIDR": {
 			"Description": "CIDR Block or IP for SSH and RDP access",
 			"Type": "String",
@@ -53,19 +45,25 @@
 		"AnsibleTowerIP": {
 			"Description": "IP for the ansible master",
 			"Type": "String",
-			"Default": "172.31.0.10"
+			"Default": "10.0.0.10"
 		},
 		"AnsibleClientLinuxIP": {
 			"Description": "IP for the ansible client",
 			"Type": "String",
-			"Default": "172.31.0.11"
+			"Default": "10.0.0.11"
 		},
-		"VPCCIDR": {
-			"Description": "CIDR Block for the VPC",
-			"Type": "String",
-			"Default": "172.31.0.0/16",
-			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
-		}
+        	"SubnetCIDR"  : {
+            		"Description" : "CIDR Block for the Public Subnet",
+            		"Type"        : "String",
+            		"Default"     : "10.0.0.0/19",
+            		"AllowedPattern" : "[a-zA-Z0-9]+\\..+"
+        	},
+        	"VPCCIDR"         : {
+            		"Description" : "CIDR Block for the VPC",
+            		"Type"        : "String",
+            		"Default"     : "10.0.0.0/16",
+            		"AllowedPattern" : "[a-zA-Z0-9]+\\..+"
+        	}
 	},
 	"Mappings": {
 		"CentOS7": {
@@ -98,43 +96,114 @@
 			}
 		}
 	},
-	"Resources": {
-		"AnsibleTower": {
-			"Type": "AWS::EC2::Instance",
-			"Metadata": {
-				"AWS::CloudFormation::Init": {
-					"config": {
-						"packages": {
-							"yum": {
-								"curl": [],
-								"wget": []
-							}
-						},
-						"files": {
-							"/etc/cfn/cfn-hup.conf": {
-								"content": {
-									"Fn::Join": ["", [
-										"[main]\n",
-										"stack=", {
-											"Ref": "AWS::StackId"
-										}, "\n",
-										"region=", {
-											"Ref": "AWS::Region"
-										}, "\n"
-									]]
-								},
-								"mode": "000400",
-								"user": "root",
-								"group": "root"
+"Resources": {
+        "VPCStack" : {
+            "Type" : "AWS::CloudFormation::Stack",
+            "Properties" : {
+                "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-VPC.template",
+                "Parameters"  : {
+                    "SubnetCIDR"  : {
+                        "Ref" : "SubnetCIDR"
+                    },
+                    "VPCCIDR"         : {
+                        "Ref" : "VPCCIDR"
+                    }
+                }
+            }
+        },
+	    "DBAllocatedStorage" : {
+      "Default": "5",
+      "Description" : "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription" : "must be between 5 and 1024Gb."
+    }
+  },
+
+  "Resources" : {
+    "DBSubnetGroup" : {
+      "Type" : "AWS::RDS::DBSubnetGroup",
+      "Properties" : {
+        "DBSubnetGroupDescription" : "Subnets available for the RDS DB Instance",
+        "SubnetIds" : { "Ref" : "Subnets" }
+      }
+    },
+
+
+    "VPCSecurityGroup" : {
+        "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" :
+        {
+           "GroupDescription" : "Security group for RDS DB Instance.",
+           "VpcId" : { "Ref" : "VPC" }
+        }
+    },
+
+    "DBInstance" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "Properties" : {
+	             "SubnetId"    : {
+                     "Fn::GetAtt" : [
+                        "VPCStack",
+                        "Outputs.SubnetId"
+                        ]
+                    },
+                    "VPC"    : {
+                    "Fn::GetAtt" : [
+                      "VPCStack",
+                      "Outputs.VPC"
+                        ]
+                    },
+     "DBName" : { "Ref" : "DBName" },
+     "Engine"            : "postgres",
+     "DBInstanceClass" : { "Ref" : "DBClass" },
+     "MultiAZ"           : { "Ref": "MultiAZDatabase" },
+     "MasterUsername"    : { "Ref" : "DBUser" },
+     "DBInstanceClass"   : { "Ref" : "DBClass" },
+     "AllocatedStorage"  : { "Ref" : "DBAllocatedStorage" },
+     "DBSubnetGroupName" : { "Ref" : "DBSubnetGroup" },
+     "VPCSecurityGroups" : [ { "Ref" : "VPCSecurityGroup" }  ]
+      }
+    }
+  },
+	"AnsibleTower": {
+		"Type": "AWS::EC2::Instance",
+		"DependsOn": [ "DBInstance", 
+		"Metadata": {
+		"AWS::CloudFormation::Init": {
+			"config": {
+				"packages": {
+					"yum":  {
+					"curl": [],
+					"wget": []
+						}
+					},
+					"files": {
+						"/etc/cfn/cfn-hup.conf": {
+							"content": {
+								"Fn::Join": ["", [
+									"[main]\n",
+									"stack=", {
+										"Ref": "AWS::StackId"
+									}, "\n",
+									"region=", {
+										"Ref": "AWS::Region"
+									}, "\n"
+								]]
 							},
-							"/etc/qsrdsinfo.conf": {
-                                                                "content": {
-                                                                        "Fn::Join": ["", [
-                                                                                "rds_dbname|",{ "Ref" : "DBName" }, "\n",
-                                                                                "rds_user|",{ "Ref" : "DBUser" }, "\n",
-                                                                                "rds_pass|",{ "Ref" : "DBPassword" }, "\n",
-                                                                                "rds_endpoint|",{ "Fn::GetAtt": ["DBInstance","Endpoint.Address"] }, "\n"
-                                                                        ]]
+							"mode": "000400",
+							"user": "root",
+							"group": "root"
+						},
+						"/etc/qsrdsinfo.conf": {
+                                                            "content": {
+                                                      "Fn::Join": ["", [
+                                                                       "rds_dbname|",{ "Ref" : "DBName" }, "\n",
+                                                                        "rds_user|",{ "Ref" : "DBUser" }, "\n",
+                                                                        "rds_pass|",{ "Ref" : "DBPassword" }, "\n",
+                                                                        "rds_endpoint|",{ "Fn::GetAtt": ["DBInstance","Endpoint.Address"] }, "\n"
+                                                                       ]]
                                                                 },
                                                                 "mode": "000400",
                                                                 "user": "root",
@@ -144,7 +213,19 @@
 					}
 				}
 			},
-			"Properties": {
+			"Properties": {               "SubnetId"    : {
+                     "Fn::GetAtt" : [
+                        "VPCStack",
+                        "Outputs.SubnetId"
+                        ]
+                    },
+                    "VPC"    : {
+                    "Fn::GetAtt" : [
+                      "VPCStack",
+                      "Outputs.VPC"
+                        ]
+                    },
+
 				"ImageId": {
 					"Fn::FindInMap": [
 						"CentOS7", {
@@ -246,36 +327,23 @@
 				"Timeout": "1800"
 			}
 		},
-  		"DBEC2SecurityGroup": {
-  		  "Type": "AWS::EC2::SecurityGroup",
-  		  "Properties" : {
-  		    "GroupDescription": "Open database for access",
-  		    "SecurityGroupIngress" : [{
-  		      "IpProtocol" : "tcp",
-  		      "FromPort" : "5432",
-  		      "ToPort" : "5432",
-		      "CidrIp": { "Ref": "VPCCIDR" }
-  		    }]
-  		  }
-  		},
-  		"DBInstance" : {
-  		  "Type": "AWS::RDS::DBInstance",
-  		  "Properties": {
-  		    "DBName"            : { "Ref" : "DBName" },
-  		    "Engine"            : "postgres",
-  		    "StorageType"       : "gp2",
-  		    "MultiAZ"           : { "Ref": "MultiAZDatabase" },
-  		    "MasterUsername"    : { "Ref" : "DBUser" },
-  		    "DBInstanceClass"   : { "Ref" : "DBClass" },
-  		    "AllocatedStorage"  : { "Ref" : "DBAllocatedStorage" },
-  		    "MasterUserPassword": { "Ref" : "DBPassword" },
-  		    "VPCSecurityGroups" : [ { "Fn::GetAtt": [ "DBEC2SecurityGroup", "GroupId" ] } ]
-		   }
-  		 },
 		"LinuxClient": {
 			"Type": "AWS::EC2::Instance",
-			"DependsOn": "AnsibleTower",
+			"DependsOn": "VPCStack",
 			"Properties": {
+               "SubnetId"    : {
+                     "Fn::GetAtt" : [
+                        "VPCStack",
+                        "Outputs.SubnetId"
+                        ]
+                    },
+                    "VPC"    : {
+                    "Fn::GetAtt" : [
+                      "VPCStack",
+                      "Outputs.VPC"
+                        ]
+                    },
+
 				"ImageId": {
 					"Fn::FindInMap": [
 						"CentOS7", {

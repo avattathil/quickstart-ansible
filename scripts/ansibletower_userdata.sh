@@ -40,10 +40,9 @@ RDSINFO="/etc/qsrdsinfo.conf"
 ADMINFO="/etc/qsadmin.conf"
 
 if [ -f $ADMININFO ] ; then
-ANSIBLE_ADMIN=`cat $RDSINFO| grep ansible_admin | awk -F"|" '{print $2}'`
-ANSIBLE_ADMIN_PASSWD=`cat $RDSINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
+ANSIBLE_ADMIN_PASSWORD=`cat $ADMINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
+ANSIBLE_DBADMIN_PASSWD=`cat $ADMINFO| grep ansible_dbadmin_password | awk -F"|" '{print $2}'`
 fi
-
 
 if [ -f $RDSINFO ] ; then
 echo "Using AWS RDS"
@@ -65,7 +64,7 @@ pg_password: ${RDS_PASS}
 pg_port: 5432
 pg_username: ${RDS_USER}
 primary_machine: ${RDS_EP}
-redis_password: YJLHDnFQAZvqX6HbuUgoFpuwNBHs5KGiCX9CrXeS
+redis_password: ${ANSIBLE_ADMIN_PASSWD}
 
 EOF
 
@@ -73,13 +72,13 @@ else
 
 #Create tower_setup yml
 cat <<EOF >> tower_setup_conf.yml 
-admin_password: ansibleadmin
+admin_password: ${ANSIBLE_ADMIN_PASSWD} 
 configure_private_vars: {}
 database: internal
-munin_password: ansibleadmin
-pg_password: iJcP9V3NKKtvuKvnhUwpUuJuWe9KBavGhxzJF8vF
+munin_password: ${ANSIBLE_ADMIN_PASSWD}
+pg_password: ${ANSIBLE_DBADMIN_PASSWD}
 primary_machine: localhost
-redis_password: cUMRCVcPnMcLS2Yet3JaaTR7dPphckg2Tpbx7oqm
+redis_password: ${ANSIBLE_ADMIN_PASSWD}
 
 EOF
 

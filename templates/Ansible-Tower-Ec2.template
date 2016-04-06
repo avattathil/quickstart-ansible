@@ -79,7 +79,6 @@
 								"curl": [],
 								"wget": []
 							}
-						},
 						"files": {
 							"/etc/cfn/cfn-hup.conf": {
 								"content": {
@@ -96,11 +95,22 @@
 								"mode": "000400",
 								"user": "root",
 								"group": "root"
-							}
+							},
+							"/etc/qsadmin.conf": {
+                                                                "content": {
+                                                                        "Fn::Join": ["", [
+                                                                                "ansible_admin_password|",{ "Ref" : "AnsibleAdminPassword" }, "\n",
+                                                                                "ansible_dbadmin_password|",{ "Ref" : "DatabaseAdminPassword" }, "\n",
+                                                                        ]]
+                                                                },
+                                                                "mode": "000400",
+                                                                "user": "root",
+                                                                "group": "root"
+                                                        }
 						}
 					}
 				}
-			},
+			},						},
 			"Properties": {
 				"ImageId": {
 					"Fn::FindInMap": [

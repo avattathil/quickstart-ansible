@@ -40,7 +40,7 @@ RDSINFO="/etc/qsrdsinfo.conf"
 ADMINFO="/etc/qsadmin.conf"
 
 if [ -f $ADMININFO ] ; then
-ANSIBLE_ADMIN_PASSWORD=`cat $ADMINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
+ANSIBLE_ADMIN_PASSWD=`cat $ADMINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
 ANSIBLE_DBADMIN_PASSWD=`cat $ADMINFO| grep ansible_dbadmin_password | awk -F"|" '{print $2}'`
 fi
 

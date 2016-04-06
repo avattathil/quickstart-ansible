@@ -78,7 +78,7 @@
 							"yum": {
 								"curl": [],
 								"wget": []
-							}
+							},
 						"files": {
 							"/etc/cfn/cfn-hup.conf": {
 								"content": {

@@ -1,12 +1,15 @@
 #!/bin/bash
 # author tonynv@amazon.com
-# Install ansible tower
+# Install Ansible Tower
 #
 
 USERDATAID=ansible_install
 QS_DEPLOY_ROOT=/root
 DATE=`date +%d-%m-%Y`
 
+######################################################################
+#Source Files
+######################################################################
 ANSIBLE_SOURCE="https://releases.ansible.com/ansible-tower/setup-bundle"
 ANSIBLE_SOURCE_FILE="ansible-tower-setup-bundle-2.4.4-1.el7.tar.gz"
 
@@ -15,7 +18,9 @@ echo "Installing Tools"
 # Install tools needed for bootstraping
 yum install wget -y
 
+######################################################################
 # Install Ansible Tower
+######################################################################
 echo "Installing Ansible Tower"
 cd ${QS_DEPLOY_ROOT}
 echo "Working in `pwd`" 
@@ -34,11 +39,15 @@ sed -i -e "s/10000000000/100000000/" roles/preflight/defaults/main.yml
 # Allow sudo with out tty
 sed -i -e "s/Defaults    requiretty/Defaults    \!requiretty/" /etc/sudoers
 
+# Make file only readable by root
 chmod 400 /etc/qsrdsinfo.conf
 chmod 400 /etc/qsadmin.conf
 RDSINFO="/etc/qsrdsinfo.conf"
 ADMINFO="/etc/qsadmin.conf"
 
+##############################################################
+# Pass Cloudformation Parms to Tower installer (then delete)
+##############################################################
 if [ -f $ADMININFO ] ; then
 ANSIBLE_ADMIN_PASSWD=`cat $ADMINFO| grep ansible_admin_password | awk -F"|" '{print $2}'`
 ANSIBLE_DBADMIN_PASSWD=`cat $ADMINFO| grep ansible_dbadmin_password | awk -F"|" '{print $2}'`
@@ -92,6 +101,9 @@ localhost
 [all:vars]
 EOF
 
+#############################################################
+# Start Tower Setup
+#############################################################
 ./setup.sh
 
 # Remove Userdata Info
@@ -102,9 +114,12 @@ rm /etc/qsansible.conf
 export EC2_INI_PATH=/etc/ansible/ec2.ini
 echo "export EC2_INI_PATH=/etc/ansible/ec2.ini" >/etc/profile.d/ansible
 
-wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -o /etc/ansible/ec2.py
-wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -o /etc/ansible/ec2.ini
-chmod 755 /etc/ansible/ec2*
-chmod 755 /etc/profile.d/ansible
+wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.py -o /etc/ansible/ec2.py
+wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.ini -o /etc/ansible/ec2.ini
+chmod +x /etc/ansible/ec2.py
+chmod +x /etc/profile.d/ansible
 source /etc/profile.d/ansible
+#cp /etc/ansible/hosts /etc/ansible/hosts_orignal
+#cp -p /etc/ansible/ec2.py /etc/ansible/hosts
 
+echo "Finished AWSQuickStart Bootstraping"

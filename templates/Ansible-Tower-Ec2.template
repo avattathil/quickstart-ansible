@@ -262,7 +262,7 @@
 				}],
 				"Tags": [{
 					"Key": "Name",
-					"Value": "LinuxClient"
+					"Value": "Ansible"
 				}],
 				"KeyName": {
 					"Ref": "KeyPairName"

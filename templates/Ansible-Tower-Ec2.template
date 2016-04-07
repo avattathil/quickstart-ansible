@@ -157,10 +157,17 @@
 						"Ref": "AnsibleTowerSecurityGroup"
 					}]
 				}],
-				"Tags": [{
-					"Key": "Name",
-					"Value": "Ansible"
-				}],
+				"Tags": [
+					   {
+					     "Key": "Name",
+					     "Value": "Ansible"
+					   },
+					   {    
+                                             "Key": "Ansible",
+                                             "Value": "Managed"
+                                           }
+					
+				        ],
 				"BlockDeviceMappings": [{
 					"DeviceName": "/dev/xvdb",
 					"Ebs": {
@@ -260,10 +267,15 @@
 						"Ref": "AnsibleClientLinuxSecurityGroup"
 					}]
 				}],
-				"Tags": [{
-					"Key": "Name",
-					"Value": "Ansible"
-				}],
+				"Tags": [
+					    {
+						"Key": "Name",
+						"Value": "AnsibleClient"
+					    },{
+                                                "Key": "Ansible",
+                                                "Value": "Managed"
+                                            }
+					],
 				"KeyName": {
 					"Ref": "KeyPairName"
 				},

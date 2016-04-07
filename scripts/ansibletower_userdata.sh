@@ -95,5 +95,16 @@ EOF
 ./setup.sh
 
 # Remove Userdata Info
-#rm /etc/qsrdsinfo.conf
-#rm /etc/qsansible.conf
+rm /etc/qsrdsinfo.conf
+rm /etc/qsansible.conf
+
+# Setup ec2 tools
+export EC2_INI_PATH=/etc/ansible/ec2.ini
+echo "export EC2_INI_PATH=/etc/ansible/ec2.ini" >/etc/profile.d/ansible
+
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -o /etc/ansible/ec2.py
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py -o /etc/ansible/ec2.ini
+chmod 755 /etc/ansible/ec2*
+chmod 755 /etc/profile.d/ansible
+source /etc/profile.d/ansible
+

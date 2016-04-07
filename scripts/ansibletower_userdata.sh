@@ -11,7 +11,8 @@ DATE=`date +%d-%m-%Y`
 #Source Files
 ######################################################################
 ANSIBLE_SOURCE="https://releases.ansible.com/ansible-tower/setup-bundle"
-ANSIBLE_SOURCE_FILE="ansible-tower-setup-bundle-2.4.4-1.el7.tar.gz"
+#ANSIBLE_SOURCE_FILE="ansible-tower-setup-bundle-2.4.4-1.el7.tar.gz"
+ANSIBLE_SOURCE_FILE="ansible-tower-setup-bundle-latest.el7.tar.gz"
 
 date >/root/install_date
 echo "Installing Tools"

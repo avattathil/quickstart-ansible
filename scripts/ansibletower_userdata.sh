@@ -112,10 +112,11 @@ rm /etc/qsansible.conf
 
 # Setup ec2 tools
 export EC2_INI_PATH=/etc/ansible/ec2.ini
-echo "export EC2_INI_PATH=/etc/ansible/ec2.ini" >/etc/profile.d/ansible
+echo "export EC2_INI_PATH=/etc/ansible/ec2.ini" >/etc/profile.d/ansible.sh
 
-wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.py -o /etc/ansible/ec2.py
-wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.ini -o /etc/ansible/ec2.ini
+
+wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.py -O /etc/ansible/ec2.py
+wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.ini -O /etc/ansible/ec2.ini
 chmod +x /etc/ansible/ec2.py
 chmod +x /etc/profile.d/ansible
 source /etc/profile.d/ansible

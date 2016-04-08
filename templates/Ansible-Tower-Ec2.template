@@ -160,10 +160,10 @@
 				"Tags": [
 					   {
 					     "Key": "Name",
-					     "Value": "Ansible"
+					     "Value": "AnsibleTower"
 					   },
 					   {    
-                                             "Key": "Ansible",
+                                             "Key": "Tower",
                                              "Value": "Managed"
                                            }
 					
@@ -184,6 +184,7 @@
 						"Fn::Join": [
 							"", [
 								"#!/bin/bash\n",
+                                                                "hostname ansibletower",
 								"yum install -y epel-release\n",
 								"yum install -y python-daemon\n",
 								"yum install -y pystache.noarch\n",
@@ -272,7 +273,7 @@
 						"Key": "Name",
 						"Value": "AnsibleClient"
 					    },{
-                                                "Key": "Ansible",
+                                                "Key": "Tower",
                                                 "Value": "Managed"
                                             }
 					],
@@ -284,7 +285,7 @@
 						"Fn::Join": [
 							"", [
 								"#!/bin/bash\n",
-								"hostname linuxclient.example.com",
+								"date >/root/born_date",
 								"\n"
 							]
 						]

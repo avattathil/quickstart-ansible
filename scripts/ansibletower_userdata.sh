@@ -107,21 +107,9 @@ EOF
 #############################################################
 ./setup.sh
 
-# Remove Userdata Info
+# Remove files used in bootstraping
 rm /etc/qsrdsinfo.conf
 rm /etc/qsansible.conf
 
-# Setup ec2 tools
-export EC2_INI_PATH=/etc/ansible/ec2.ini
-echo "export EC2_INI_PATH=/etc/ansible/ec2.ini" >/etc/profile.d/ansible.sh
-
-
-wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.py -O /etc/ansible/ec2.py
-wget https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansible_inventory/ec2.ini -O /etc/ansible/ec2.ini
-chmod +x /etc/ansible/ec2.py
-chmod +x /etc/profile.d/ansible
-source /etc/profile.d/ansible
-#cp /etc/ansible/hosts /etc/ansible/hosts_orignal
-#cp -p /etc/ansible/ec2.py /etc/ansible/hosts
-
 echo "Finished AWSQuickStart Bootstraping"
+

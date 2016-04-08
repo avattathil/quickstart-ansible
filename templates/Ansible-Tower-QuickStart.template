@@ -72,6 +72,7 @@
         },
         "Ec2Stack" : {
             "Type" : "AWS::CloudFormation::Stack",
+	    "DependsOn" :"VPCStack",
             "Properties" : {
                 "TemplateURL" : "https://s3.amazonaws.com/quickstart-reference/ansible/latest/templates/Ansible-Tower-Ec2.template",
                 "Parameters"  : {

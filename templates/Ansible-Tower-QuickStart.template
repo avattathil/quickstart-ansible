@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-        "Description": "Create Ansible Tower Quick Start.",
+        "Description": "(0022) Creates Ansible Tower on CentOS7 with Clients Tagged for Mangement",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",

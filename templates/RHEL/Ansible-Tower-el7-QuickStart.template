@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-        "Description": "(0022) Creates Ansible Tower on CentOS7 with Clients Tagged for Mangement",
+        "Description": "(0022) Creates Ansible Tower on RHEL7 with Clients Tagged for Mangement",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",
@@ -33,6 +33,59 @@
 	    "Type": "String",
 	    "Default": "10.0.0.11"
 	},
+	"AnsibleTowerInstanceType": {
+            "Description": "Amazon EC2 instance type for the Config Server",
+            "Type": "String",
+            "Default": "t2.medium",
+            "AllowedValues": [
+                "t2.medium",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge"
+            ]
+        },
+        "LinuxClientInstanceType": {
+            "Description": "Amazon EC2 instance type for the Linux Client.",
+            "Type": "String",
+            "Default": "m3.medium",
+            "AllowedValues": [
+                "t2.micro",
+                "t2.medium",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge"
+            ]
+        },
         "SubnetCIDR"  : {
             "Description" : "CIDR Block for the Public Subnet",
             "Type"        : "String",

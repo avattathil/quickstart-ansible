@@ -17,7 +17,6 @@ ANSIBLE_SOURCE_FILE="ansible-tower-setup-bundle-latest.el7.tar.gz"
 date >/root/install_date
 echo "Installing Tools"
 # Install tools needed for bootstraping
-yum install https://s3.amazonaws.com/quickstart-cfn-tools/extrapkgs-7.noarch.rpm -y
 yum install wget -y
 
 ######################################################################

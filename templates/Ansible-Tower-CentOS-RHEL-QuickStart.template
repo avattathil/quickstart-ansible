@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-        "Description": "(0022) Creates Ansible Tower on CentOS7 with Clients Tagged for Mangement",
+        "Description": "(0022) Creates Ansible Tower on Redhat Distro with Clients Tagged for Mangement",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",
@@ -34,8 +34,8 @@
                 "CentOS7",
                 "RHEL7"
             ],
-            "Type"        : "String",
-            "Default": "CentOS7"
+            "Type"   : "String",
+            "Default": "RHEL7"
     },
 	"AnsibleClientLinuxIP": {
 	    "Description": "IP for the ansible client",

@@ -236,8 +236,9 @@
 						"Fn::Join": [
 							"", [
 								"#!/bin/bash\n",
-                                                                "hostnamectl set-hostname ansibletower",
+                                                                "hostnamectl set-hostname ansibletower\n",
 								"yum install -y https://s3.amazonaws.com/quickstart-cfn-tools/extrapkgs-7.noarch.rpm\n",
+								"yum install -y python-setuptools\n",
 								"yum install -y python-daemon\n",
 								"yum install -y pystache.noarch\n",
 								"yum install -y python-ecdsa\n",

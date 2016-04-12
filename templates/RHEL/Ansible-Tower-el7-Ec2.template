@@ -235,7 +235,7 @@
 					"Fn::Base64": {
 						"Fn::Join": [
 							"", [
-								"#!/bin/bash -xe \n",
+								"#!/bin/bash \n",
                                 "hostnamectl set-hostname tower\n",
                                 "yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\n",
                                 "yum install -y python-setuptools\n",

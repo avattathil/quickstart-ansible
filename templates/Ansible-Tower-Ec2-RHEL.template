@@ -54,36 +54,36 @@
 		}
 	},
 	"Mappings": {
-		"CentOS7": {
+		"RHEL7": {
 			"us-east-1": {
-				"64": "ami-6d1c2007"
+				"64": "ami-2051294a"
 			},
 			"us-west-2": {
-				"64": "ami-d2c924b2"
+				"64": "ami-775e4f16"
 			},
 			"us-west-1": {
-				"64": "ami-af4333cf"
+				"64": "ami-d1315fb1"
 			},
 			"eu-west-1": {
-				"64": "ami-7abd0209"
+				"64": "ami-8b8c57f8"
 			},
 			"eu-central-1": {
-				"64": "ami-9bf712f4"
+				"64": "ami-875042eb"
 			},
 			"ap-southeast-1": {
-				"64": "ami-f068a193"
+				"64": "ami-3f03c55c"
 			},
 			"ap-northeast-1": {
-				"64": "ami-eec1c380"
+				"64": "ami-0dd8f963"
 			},
 			"ap-northeast-2": {
-				"64": "ami-c74789a9"
+				"64": "ami-44db152a"
 			},
 			"sa-east-1": {
-				"64": "ami-26b93b4a"
+				"64": "ami-27b3094b"
 			},
 			"ap-southeast-2": {
-				"64": "ami-fedafc9d"
+				"64": "ami-ami-e0c19f83"
 			}
 		}
 	},
@@ -134,7 +134,7 @@
 			"Properties": {
 				"ImageId": {
 					"Fn::FindInMap": [
-						"CentOS7", {
+						"RHEL7", {
 							"Ref": "AWS::Region"
 						},
 						"64"
@@ -245,7 +245,7 @@
 			"Properties": {
 				"ImageId": {
 					"Fn::FindInMap": [
-						"CentOS7", {
+						"RHEL7", {
 							"Ref": "AWS::Region"
 						},
 						"64"

@@ -236,7 +236,7 @@
 						"Fn::Join": [
 							"", [
 								"#!/bin/bash -xe \n",
-                                "hostnamectl set-hostname ansibletower\n",
+                                "hostnamectl set-hostname tower\n",
                                 "yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm\n",
                                 "yum install -y python-setuptools\n",
                                 "yum install -y python-daemon\n",

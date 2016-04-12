@@ -55,12 +55,13 @@
                 "i2.8xlarge"
             ]
         },
-        "NodeInstanceType": {
-            "Description": "Amazon EC2 instance type for the MongoDB nodes.",
+        "LinuxClientInstanceType": {
+            "Description": "Amazon EC2 instance type for the Linux Client.",
             "Type": "String",
-            "Default": "m3.medium",
+            "Default": "t2.medium",
             "AllowedValues": [
                 "t2.micro",
+                "t2.medium",
                 "m3.medium",
                 "m3.large",
                 "m3.xlarge",
@@ -115,7 +116,7 @@
 		}
 	},
 	"Mappings": {
-		"CentOS7": {
+		"LinuxOS": {
 			"us-east-1": {
 				"CentOS7": "ami-6d1c2007",
 				"RHEL7": "ami-2051294a"
@@ -205,13 +206,14 @@
 			"Properties": {
 				"ImageId": {
 					"Fn::FindInMap": [
-						"CentOS7", {
+						"LinuxOS", {
 							"Ref": "AWS::Region"
 						},
-						"64"
+						{ "Ref": "Distro"}
+
 					]
 				},
-				"InstanceType": "t2.medium",
+				"InstanceType": { "Ref": "LinuxClientInstanceType"},
 				"NetworkInterfaces": [{
 					"DeleteOnTermination": "true",
 					"DeviceIndex": 0,
@@ -316,12 +318,14 @@
 			"Properties": {
 				"ImageId": {
 					"Fn::FindInMap": [
-						"CentOS7", {
+						"LinuxOS", {
 							"Ref": "AWS::Region"
 						},
-						"64"
+						{ "Ref": "Distro"}
+
 					]
 				},
+				"InstanceType": { "Ref": "LinuxClientInstanceType"},
 				"InstanceType": "t2.medium",
 				"NetworkInterfaces": [{
 					"DeleteOnTermination": "true",

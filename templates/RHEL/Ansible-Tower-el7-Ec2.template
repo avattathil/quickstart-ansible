@@ -245,7 +245,7 @@
 								"yum install -y python-keyczar\n",
 								"yum install -y python-crypto\n",
 								"yum install -y python-httplib\n",
-								"yum install  -y https://s3.amazonaws.com/quickstart-cfn-tools/aws-cfn-bootstrap-1.4-8.3.el7.centos.noarch.rpm\n",
+								"yum install  -y https://s3.amazonaws.com/quickstart-cfn-tools/aws-cfn-bootstrap-1.4-8.3.el7.noarch.rpm\n",
 								"/opt/aws/bin/cfn-init ",
 								" --stack ", { "Ref": "AWS::StackName" },
 								" --resource AnsibleTower ",

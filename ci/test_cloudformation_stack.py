@@ -193,6 +193,8 @@ def getteststatus(stackid):
     stackname=regxfind(stackname_re,stackid)
     testinfo = []
     cfnconect= boto3.client('cloudformation',region)
+    print "[] Checking status of stackname :" + stackname
+    print "[] In region :" + region
     try:
         testquery=(cfnconect.describe_stacks(StackName=stackname))
         status = "active"

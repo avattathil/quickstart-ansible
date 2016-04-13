@@ -75,9 +75,10 @@
         "LinuxClientInstanceType": {
             "Description": "Amazon EC2 instance type for the Linux nodes.",
             "Type": "String",
-            "Default": "m3.medium",
+            "Default": "t2.medium",
             "AllowedValues": [
                 "t2.micro",
+                "t2.medium",
                 "m3.medium",
                 "m3.large",
                 "m3.xlarge",
@@ -247,17 +248,17 @@
 								"yum install -y python-crypto\n",
 								"yum install -y python-httplib\n",
                                 "easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
-								"/opt/aws/bin/cfn-init ",
+								"/usr/bin/cfn-init ",
 								" --stack ", { "Ref": "AWS::StackName" },
 								" --resource AnsibleTower ",
 								" --region ", { "Ref": "AWS::Region" }, 
 								"\n",
-								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforCfnTools" },"'","\n",
+								"/usr/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforCfnTools" },"'","\n",
 
 								"SRC=https://s3.amazonaws.com/quickstart-reference/ansible/latest/scripts/ansibletower_userdata-el7.sh",
 								"\n",
 								"curl -L $SRC | bash;",
-								"/opt/aws/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforAnsibleTowerInstall" },"'","\n",
+								"/usr/bin/cfn-signal", " -e $?", " '", { "Ref" : "WaitforAnsibleTowerInstall" },"'","\n",
 								"\n",
 								"\n"
 							]

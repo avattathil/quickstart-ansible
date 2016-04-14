@@ -1,6 +1,5 @@
 global:
-  qsname: qs_ansible
-  qsenv: dev
+  qsname: quickstart-ansible
   reporting: true
   cis3bucket: s3://quickstart-ci-bucket
   regions:

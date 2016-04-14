@@ -4,8 +4,7 @@ global:
   cis3bucket: s3://quickstart-ci-bucket
   regions:
     - us-east-1
-    - us-west-1
- 
+
 tests:
   ansible-centos:
     template_file: Ansible-Tower-QuickStart.template

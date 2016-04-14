@@ -10,3 +10,6 @@ tests:
   ansible-centos:
     template_file: Ansible-Tower-QuickStart.template
     parameter_input: Ansible-Tower-QuickStart.json
+  ansible-rhel:
+    template_file: Ansible-Tower-el7-QuickStart.template
+    parameter_input: Ansible-Tower-el7-QuickStart.json

@@ -7,6 +7,6 @@ global:
     - us-west-1
  
 tests:
-  qs_ansiblet1:
+  ansible-centos:
     template_file: Ansible-Tower-QuickStart.template
     parameter_input: Ansible-Tower-QuickStart.json

@@ -15,8 +15,8 @@ global:
     - ap-northeast-2
 tests:
   centos:
-    template_file: Ansible-Tower-QuickStart.template
-    parameter_input: Ansible-Tower-QuickStart.json
+    template_file: Ansible-Tower-c7-QuickStart.template
+    parameter_input: Ansible-Tower-c7-QuickStart.json
   rhel:
     template_file: Ansible-Tower-el7-QuickStart.template
     parameter_input: Ansible-Tower-el7-QuickStart.json

@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-        "Description": "(0022) Creates Ansible Tower on RHEL7 with Clients Tagged for Mangement",
+        "Description": "(0022) Creates Ansible Tower on [RHEL7] with Clients Tagged for Mangement",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",
@@ -62,7 +62,7 @@
         "LinuxClientInstanceType": {
             "Description": "Amazon EC2 instance type for the Linux Client.",
             "Type": "String",
-            "Default": "m3.medium",
+            "Default": "t2.medium",
             "AllowedValues": [
                 "t2.micro",
                 "t2.medium",

@@ -75,9 +75,10 @@
         "LinuxClientInstanceType": {
             "Description": "Amazon EC2 instance type for the Linux nodes.",
             "Type": "String",
-            "Default": "t2.medium",
+            "Default": "t2.micro",
             "AllowedValues": [
                 "t2.micro",
+                "t2.small",
                 "t2.medium",
                 "m3.medium",
                 "m3.large",

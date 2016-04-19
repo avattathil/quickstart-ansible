@@ -14,9 +14,9 @@ global:
     - ap-southeast-2
     - ap-northeast-2
 tests:
-  centos:
+  c7:
     template_file: Ansible-Tower-c7-QuickStart.template
     parameter_input: Ansible-Tower-c7-QuickStart.json
-  rhel:
+  el7:
     template_file: Ansible-Tower-el7-QuickStart.template
     parameter_input: Ansible-Tower-el7-QuickStart.json

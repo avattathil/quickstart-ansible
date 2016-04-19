@@ -1,0 +1,15 @@
+[
+  {
+    "ParameterKey": "KeyPairName",
+    "ParameterValue": "tonynv"
+  }, 
+  {
+    "ParameterKey": "AnsibleAdminPassword",
+    "ParameterValue": "Ansible-00"
+  },
+  {
+    "ParameterKey": "DatabaseAdminPassword",
+    "ParameterValue": "Ansible-00"
+  }
+]
+

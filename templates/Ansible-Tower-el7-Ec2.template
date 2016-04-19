@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Create the Amazon EC2 instances for the Ansible Quick Start.",
+	"Description": "Create the Amazon EC2 instances for the Ansible Quick Start. [RHEL7]",
 	"Parameters": {
 		"KeyPairName": {
 			"Description": "Public/private key pair",
@@ -277,7 +277,7 @@
 				"Handle": {
 					"Ref": "WaitforCfnTools"
 				},
-				"Timeout": "1500"
+				"Timeout": "2000"
 
 			}
 		},
@@ -291,7 +291,7 @@
 				"Handle": {
 					"Ref": "WaitforAnsibleTowerInstall"
 				},
-				"Timeout": "1500"
+				"Timeout": "2000"
 			}
 		},
 		"LinuxClient": {

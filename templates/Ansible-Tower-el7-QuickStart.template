@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion" : "2010-09-09",
-        "Description": "(0022) Creates Ansible Tower on [RHEL7] with Clients Tagged for Mangement",
+        "Description": "QS(0022) Creates Ansible Tower on [RHEL7] with Clients Tagged for Mangement",
     "Parameters"               : {
         "KeyPairName" : {
             "Description" : "Public/private key pair",

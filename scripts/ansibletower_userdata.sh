@@ -67,7 +67,7 @@ redis_password: ${ANSIBLE_DBADMIN_PASSWD}
 EOF
 
 
-echo "Create tower_setup yml"
+echo "Create inventory file"
 #Create inventory file
 cat <<EOF >> inventory
 [primary]

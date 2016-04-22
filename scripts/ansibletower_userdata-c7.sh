@@ -18,6 +18,8 @@ date >/root/install_date
 echo "Installing Tools"
 # Install tools needed for bootstraping
 yum install wget -y
+yum install ansible -y
+
 
 ######################################################################
 # Install Ansible Tower

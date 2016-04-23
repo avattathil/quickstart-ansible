@@ -1,5 +1,5 @@
 # quickstart-ansible
-This is the offical report for the quickstart-ansible AWS QuickStart
+This is the offical repo for the Ansible Tower (AWS QuickStart)
 
 This Quick Start deploys the latest version of Ansible Tower on an EC2 instance that is running CentOS 7 or Red Hat Enterprise Linux (RHEL) 7. The installation is automated with a user data script that executes when the instance is launched via AWS CloudFormation. Ansible Tower installation files are installed directly from Ansible’s release server.
 

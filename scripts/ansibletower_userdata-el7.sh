@@ -84,7 +84,6 @@ EOF
 ./setup.sh
 
 # Remove files used in bootstraping
-rm /etc/qsrdsinfo.conf
 rm /etc/qsansible.conf
 
 echo "Finished AWSQuickStart Bootstraping"

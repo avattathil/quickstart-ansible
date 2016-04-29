@@ -18,6 +18,8 @@ date >/root/install_date
 echo "Installing Tools"
 # Install tools needed for bootstraping
 yum install wget -y
+yum install ansible -y
+
 
 ######################################################################
 # Install Ansible Tower
@@ -54,31 +56,7 @@ ANSIBLE_ADMIN_PASSWD=`cat $ADMINFO| grep ansible_admin_password | awk -F"|" '{pr
 ANSIBLE_DBADMIN_PASSWD=`cat $ADMINFO| grep ansible_dbadmin_password | awk -F"|" '{print $2}'`
 fi
 
-if [ -f $RDSINFO ] ; then
-echo "Using AWS RDS"
-RDS_DBNAME=`cat $RDSINFO | grep rds_dbname | awk -F"|" '{print $2}'`
-RDS_USER=`cat $RDSINFO | grep rds_user | awk -F"|" '{print $2}'`
-RDS_PASS=`cat $RDSINFO | grep rds_pass | awk -F"|" '{print $2}'`
-RDS_EP=`cat $RDSINFO| grep rds_endpoint | awk -F"|" '{print $2}'`
-	
-#Create tower_setup yml
-cat <<EOF >> tower_setup_conf.yml
-admin_password: ${ANSIBLE_ADMIN_PASSWD}
-configure_private_vars: {}
-database: external
-mongo: false
-munin_password: ${ANSIBLE_ADMIN_PASSWD}
-pg_database: ${RDS_DBNAME}
-pg_host: ${RDS_EP}
-pg_password: ${RDS_PASS}
-pg_port: 5432
-pg_username: ${RDS_USER}
-primary_machine: ${RDS_EP}
-redis_password: ${ANSIBLE_ADMIN_PASSWD}
-
-EOF
-
-else
+echo "Create tower_setup yml"
 
 #Create tower_setup yml
 cat <<EOF >> tower_setup_conf.yml 
@@ -88,11 +66,11 @@ database: internal
 munin_password: ${ANSIBLE_ADMIN_PASSWD}
 pg_password: ${ANSIBLE_DBADMIN_PASSWD}
 primary_machine: localhost
-redis_password: ${ANSIBLE_ADMIN_PASSWD}
+redis_password: ${ANSIBLE_DBADMIN_PASSWD}
 
 EOF
 
-fi
+echo "Create inventory file"
 
 #Create inventory file
 cat <<EOF >> inventory

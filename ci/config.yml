@@ -5,8 +5,6 @@ global:
   regions:
     - us-east-1
 
-
-
 tests:
   c7:
     template_file: Ansible-Tower-c7-QuickStart.template

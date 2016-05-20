@@ -5,9 +5,9 @@ global:
   regions:
     - us-east-1
 tests:
-  centos:
+  c7:
     template_file: Ansible-Tower-c7-QuickStart.template
     parameter_input: Ansible-Tower-c7-QuickStart.json
-  rhel:
+  r7:
     template_file: Ansible-Tower-el7-QuickStart.template
     parameter_input: Ansible-Tower-el7-QuickStart.json

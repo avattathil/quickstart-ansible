@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -ex
 # author tonynv@amazon.com
 # Install Ansible Tower
 #

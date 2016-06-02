@@ -112,37 +112,37 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "RHEL7": "RHEL-7.2_HVM_GA-20151112-x86_64-1-Hourly2-GP2"
+                "RHEL72HVM": "RHEL-7.2_HVM_GA-20151112-x86_64-1-Hourly2-GP2"
             },
             "ap-northeast-1": {
-                "RHEL7": "ami-0dd8f963"
+                "RHEL72HVM": "ami-0dd8f963"
             },
             "ap-northeast-2": {
-                "RHEL7": "ami-44db152a"
+                "RHEL72HVM": "ami-44db152a"
             },
             "ap-southeast-1": {
-                "RHEL7": "ami-3f03c55c"
+                "RHEL72HVM": "ami-3f03c55c"
             },
             "ap-southeast-2": {
-                "RHEL7": "ami-e0c19f83"
+                "RHEL72HVM": "ami-e0c19f83"
             },
             "eu-central-1": {
-                "RHEL7": "ami-875042eb"
+                "RHEL72HVM": "ami-875042eb"
             },
             "eu-west-1": {
-                "RHEL7": "ami-8b8c57f8"
+                "RHEL72HVM": "ami-8b8c57f8"
             },
             "sa-east-1": {
-                "RHEL7": "ami-27b3094b"
+                "RHEL72HVM": "ami-27b3094b"
             },
             "us-east-1": {
-                "RHEL7": "ami-2051294a"
+                "RHEL72HVM": "ami-2051294a"
             },
             "us-west-1": {
-                "RHEL7": "ami-d1315fb1"
+                "RHEL72HVM": "ami-d1315fb1"
             },
             "us-west-2": {
-                "RHEL7": "ami-775e4f16"
+                "RHEL72HVM": "ami-775e4f16"
             }
         }
     },
@@ -215,7 +215,7 @@
                         {
                             "Ref": "AWS::Region"
                         },
-                        "RHEL7"
+                        "RHEL72HVM"
                     ]
                 },
                 "InstanceType": {
@@ -356,7 +356,7 @@
                         {
                             "Ref": "AWS::Region"
                         },
-                        "RHEL7"
+                        "RHEL72HVM"
                     ]
                 },
                 "InstanceType": {

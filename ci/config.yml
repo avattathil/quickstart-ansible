@@ -1,6 +1,7 @@
 global:
   qsname: quickstart-ansible
   reporting: true
+  marketplace: true
   cis3bucket: s3://quickstart-ci-bucket
   regions:
     - us-east-1

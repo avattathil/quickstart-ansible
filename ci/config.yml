@@ -1,6 +1,7 @@
 global:
   qsname: quickstart-ansible
   reporting: true
+  marketplace: flase
   cis3bucket: s3://quickstart-ci-bucket
   regions:
     - us-east-1
@@ -15,9 +16,9 @@ global:
     - ap-northeast-2
     
 tests:
-  c7:
+  c7master:
     template_file: Ansible-Tower-c7-QuickStart.template
     parameter_input: Ansible-Tower-c7-QuickStart.json
-  el7:
+  el7master:
     template_file: Ansible-Tower-el7-QuickStart.template
     parameter_input: Ansible-Tower-el7-QuickStart.json

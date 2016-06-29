@@ -118,6 +118,9 @@
             "ap-northeast-2": {
                 "CENTOS7": "ami-c74789a9"
             },
+            "ap-south-1": {
+                "CENTOS7": "ami-d2c924b2"
+            },
             "ap-southeast-1": {
                 "CENTOS7": "ami-f068a193"
             },

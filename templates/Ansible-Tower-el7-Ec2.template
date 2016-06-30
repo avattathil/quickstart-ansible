@@ -120,9 +120,6 @@
             "ap-northeast-2": {
                 "RHEL72HVM": "ami-44db152a"
             },
-            "ap-south-1": {
-                "RHEL72HVM": "ami-775e4f16"
-            },
             "ap-southeast-1": {
                 "RHEL72HVM": "ami-3f03c55c"
             },

@@ -5,11 +5,11 @@
   },
   {
     "ParameterKey": "AnsibleAdminPassword",
-    "ParameterValue": "Ansible-00"
+    "ParameterValue": "$[alfred_genpass_16]"
   },
   {
     "ParameterKey": "DatabaseAdminPassword",
-    "ParameterValue": "Ansible-00"
+    "ParameterValue": "$[alfred_genpass_16]0"
   }
 ]
 

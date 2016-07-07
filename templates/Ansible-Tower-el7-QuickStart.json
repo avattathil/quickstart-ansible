@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "DatabaseAdminPassword",
-    "ParameterValue": "$[alfred_genpass_16]0"
+    "ParameterValue": "$[alfred_genpass_16]"
   }
 ]
 

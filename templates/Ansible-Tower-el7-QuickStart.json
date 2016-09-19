@@ -8,6 +8,10 @@
     "ParameterValue": "$[alfred_genpass_16]"
   },
   {
+    "ParameterKey": "RemoteAdminCIDR",
+    "ParameterValue": "10.0.0.0/16"
+  },
+  {
     "ParameterKey": "DatabaseAdminPassword",
     "ParameterValue": "$[alfred_genpass_16]"
   }

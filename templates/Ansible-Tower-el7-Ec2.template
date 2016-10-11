@@ -112,37 +112,37 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "RHEL72HVM": "RHEL-7.2_HVM_GA-20151112-x86_64-1-Hourly2-GP2"
+                "RHEL72HVM": "RHEL-7.2_HVM-20160301-x86_64-3-Hourly2-GP2"
             },
             "ap-northeast-1": {
-                "RHEL72HVM": "ami-0dd8f963"
+                "RHEL72HVM": "ami-a05854ce"
             },
             "ap-northeast-2": {
-                "RHEL72HVM": "ami-44db152a"
+                "RHEL72HVM": "ami-d35d93bd"
             },
             "ap-southeast-1": {
-                "RHEL72HVM": "ami-3f03c55c"
+                "RHEL72HVM": "ami-dccc04bf"
             },
             "ap-southeast-2": {
-                "RHEL72HVM": "ami-e0c19f83"
+                "RHEL72HVM": "ami-286e4f4b"
             },
             "eu-central-1": {
-                "RHEL72HVM": "ami-875042eb"
+                "RHEL72HVM": "ami-b6688dd9"
             },
             "eu-west-1": {
-                "RHEL72HVM": "ami-8b8c57f8"
+                "RHEL72HVM": "ami-ce66d8bd"
             },
             "sa-east-1": {
-                "RHEL72HVM": "ami-27b3094b"
+                "RHEL72HVM": "ami-2b068447"
             },
             "us-east-1": {
-                "RHEL72HVM": "ami-2051294a"
+                "RHEL72HVM": "ami-85241def"
             },
             "us-west-1": {
-                "RHEL72HVM": "ami-d1315fb1"
+                "RHEL72HVM": "ami-f7eb9b97"
             },
             "us-west-2": {
-                "RHEL72HVM": "ami-775e4f16"
+                "RHEL72HVM": "ami-a3fa16c3"
             }
         }
     },
